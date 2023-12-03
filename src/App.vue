@@ -46,7 +46,7 @@ let timer = ref(null)
 function startRaffle() {
    timer.value = setInterval(() => {
        for(let i=0; i<5; i++) {
-        selected_num.value[i] = Math.floor(Math.random() * nums.length) + 1;
+        selected_num.value[i] = Math.floor(Math.random() * 36) + 1;
        }
     }, 100)
 }
