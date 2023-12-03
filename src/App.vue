@@ -1,7 +1,14 @@
 <template>
   <div class="background-mask"/>
   <img src="./assets/title.png"  alt="抽奖环节" class="title-pic"/>
-  <p class="selected-num">{{selected_num}}</p>
+    <div class="selected-num">
+      <p v-for="num in selected_num" style="
+      width: 150px;
+      font-size: 100px;
+      font-weight: bold;
+      text-align: center;
+">{{num}}</p>
+    </div>
   <button class="raffle-button" @click="onButtonClick">{{!isRaffling ? '开始抽奖' : '结束抽奖'}}</button>
 
 
@@ -11,7 +18,7 @@
 import {ref, watch, watchEffect} from "vue";
 let isRaffling = ref(false)
 let nums = []
-let selected_num = ref()
+let selected_num = ref([])
 for (let i = 1; i <= 36; i++) {
     nums.push(i)
 }
@@ -30,13 +37,17 @@ function onButtonClick() {
         startRaffle();
     }else{
         clearInterval(timer.value)
-        selected_num.value = randomNum()[0]
+        for(let i=0; i<5; i++) {
+            selected_num.value[i] = randomNum()[0]
+        }
     }
 }
 let timer = ref(null)
 function startRaffle() {
    timer.value = setInterval(() => {
-        selected_num.value = Math.floor(Math.random() * nums.length);
+       for(let i=0; i<5; i++) {
+        selected_num.value[i] = Math.floor(Math.random() * nums.length);
+       }
     }, 100)
 }
 
@@ -73,10 +84,9 @@ function startRaffle() {
 }
 .selected-num {
     position: absolute;
-    top: 20%;
-    left: calc(50% - 75px);
-    font-size: 150px;
-    font-weight: bold;
+    top: 30%;
+    left: calc(50% - 360px);
     cursor: pointer;
+    display: flex;
 }
 </style>
